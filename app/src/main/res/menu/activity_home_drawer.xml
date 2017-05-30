@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_buscar"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Buscar Eventos" />
+        <item
+            android:id="@+id/nav_lista_comprados"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Mis Tickets" />
+        <item
+            android:id="@+id/nav_nuevos_eventos"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Nuevos Eventos" />
+    </group>
+
+    <item android:title="Cuenta">
+        <menu>
+            <item
+                android:id="@+id/nav_mi_cuenta"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Mi Cuenta" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Cerrar Sesión" />
+        </menu>
+    </item>
+
+</menu>
