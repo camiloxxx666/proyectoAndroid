@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.camilo.prueba0.ConfiguracionActivity">
+
+    <EditText
+        android:id="@+id/txtIP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="61dp"
+        android:layout_marginRight="61dp"
+        android:layout_marginTop="112dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="IP"
+        android:textColor="@color/common_google_signin_btn_text_light_default"
+        android:textColorHighlight="@android:color/holo_green_dark"
+        android:textColorHint="@android:color/holo_green_dark"
+        android:textColorLink="@android:color/holo_green_dark" />
+
+    <EditText
+        android:id="@+id/txtPuerto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Puerto"
+        android:textColor="@color/common_google_signin_btn_text_light_default"
+        android:textColorHighlight="@android:color/holo_green_dark"
+        android:textColorHint="@android:color/holo_green_dark"
+        android:textColorLink="@android:color/holo_green_dark"
+        android:layout_below="@+id/txtIP"
+        android:layout_alignLeft="@+id/txtIP"
+        android:layout_alignStart="@+id/txtIP" />
+
+    <Button
+        android:id="@+id/btnGuardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guardar"
+        android:layout_below="@+id/txtPuerto"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

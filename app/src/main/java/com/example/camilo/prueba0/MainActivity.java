@@ -1,22 +1,15 @@
 package com.example.camilo.prueba0;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.support.v4.net.ConnectivityManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -24,12 +17,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -39,13 +28,15 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+import java.net.CookieStore;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
         GoogleApiClient.OnConnectionFailedListener{
@@ -56,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private GoogleApiClient mGoogleApiClient;
     private ProgressDialog mProgressDialog;
     private SignInButton btnSignIn;
+    private ImageView logo;
 
     public MainActivity() {
     }
@@ -67,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
         btnSignIn.setOnClickListener(this);
+        logo = (ImageView) findViewById(R.id.ticketsLogo);
+        logo.setOnLongClickListener(mostrarOpciones());
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -80,11 +74,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Customizing G+ button
         btnSignIn.setSize(SignInButton.SIZE_STANDARD);
         btnSignIn.setScopes(gso.getScopeArray());
+
     }
 
-    //Para no poder volver al home y que se cierre.
+    //Para no poder volver al home, que se cierre.
     public void onBackPressed() {
         finish();
+    }
+
+    public View.OnLongClickListener mostrarOpciones()
+    {
+        return new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intentConfiguracion = new Intent(MainActivity.this, ConfiguracionActivity.class);
+                startActivity(intentConfiguracion);
+                return true;
+            }
+        };
     }
 
     private void signIn() {
@@ -107,12 +114,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //Hago el login en el backend
 
-            try {
+            try
+            {
                 final String tenant = Util.getProperty("tenant.name", getApplicationContext());
+                SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, Context.MODE_PRIVATE);
+                String ip = settings.getString("ip", "");
+                String puerto = settings.getString("puerto", "");
+
+                //Con esto se mantiene la sesion de este lado.
+                CookieHandler.setDefault(new CookieManager());
 
                 RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
                 StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                        "http://192.168.1.3:8080/loginUsuarioFinalGmail/"+ "?id=" + idGoogle + "&email=" + email,
+                        "http://"+ip+":"+puerto+"/loginUsuarioFinalGmail/"+ "?id=" + idGoogle + "&email=" + email,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -244,4 +258,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            llProfileLayout.setVisibility(View.GONE);
         }
     }
+
 }

@@ -1,6 +1,8 @@
 package com.example.camilo.prueba0;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,7 +23,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.auth.api.Auth;
@@ -30,6 +40,16 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity
         implements FragmentEventosNuevos.OnFragmentInteractionListener,
@@ -82,6 +102,65 @@ public class HomeActivity extends AppCompatActivity
 
         txtNombreNav.setText(getIntent().getExtras().getString("nombre"));
         txtEmailNav.setText(getIntent().getExtras().getString("email"));
+
+        try
+        {
+            final String tenant = Util.getProperty("tenant.name", getApplicationContext());
+            SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, Context.MODE_PRIVATE);
+            String ip = settings.getString("ip", "");
+            String puerto = settings.getString("puerto", "");
+
+            RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
+            StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                    "http://"+ip+":"+puerto+"/obtenerEspectaculosUsuario/"+ "?email=" + email,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                LinearLayout ll = (LinearLayout) findViewById(R.id.content_home);
+                                JSONArray json = new JSONArray(response);
+                                final TextView[] myTextViews = new TextView[json.length()];
+                                for(int i = 0; i<json.length();i++)
+                                {
+                                    JSONObject jsonO = json.getJSONObject(i);
+                                    TextView rowTextView = new TextView(HomeActivity.this);
+                                    rowTextView.setText(jsonO.getString("nombre")+" - "+jsonO.getString("descripcion"));
+                                    ll.addView(rowTextView);
+                                    myTextViews[i] = rowTextView;
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(HomeActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String>  params = new HashMap<String, String>();
+                    params.put("Content-Type", "application/json");
+                    params.put("X-TenantID", tenant);
+
+                    return params;
+                }
+            };
+
+            requestQueue.add(stringRequest);
+        }
+        catch(IOException ioe)
+        {
+            ioe.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
 

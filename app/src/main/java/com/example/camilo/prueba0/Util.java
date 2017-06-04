@@ -13,6 +13,8 @@ import java.util.Properties;
 
 public class Util
 {
+    public static final String PREFS_NAME = "MyPrefsFile";
+
     public static String getProperty(String key, Context context) throws IOException {
         Properties properties = new Properties();;
         AssetManager assetManager = context.getAssets();
