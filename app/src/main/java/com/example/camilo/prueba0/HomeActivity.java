@@ -6,10 +6,12 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,9 +21,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +40,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.camilo.prueba0.modelo.Espectaculo;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -41,12 +48,14 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,12 +70,14 @@ public class HomeActivity extends AppCompatActivity
     private GoogleApiClient mGoogleApiClient;
     private TextView txtEmailNav, txtNombreNav;
     private String foto, nombre, email;
-
+    private ListView lvEspectaculos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        lvEspectaculos = (ListView) findViewById(R.id.lvEspectaculos);
 
         //Enlaza el menú de arriba
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -116,24 +127,10 @@ public class HomeActivity extends AppCompatActivity
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            try {
-                                LinearLayout ll = (LinearLayout) findViewById(R.id.content_home);
-                                JSONArray json = new JSONArray(response);
-                                final TextView[] myTextViews = new TextView[json.length()];
-                                for(int i = 0; i<json.length();i++)
-                                {
-                                    JSONObject jsonO = json.getJSONObject(i);
-                                    TextView rowTextView = new TextView(HomeActivity.this);
-                                    rowTextView.setText(jsonO.getString("nombre")+" - "+jsonO.getString("descripcion"));
-                                    ll.addView(rowTextView);
-                                    myTextViews[i] = rowTextView;
-                                }
 
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
+                            ArrayList<Espectaculo> espectaculos = new Gson().fromJson(response, new TypeToken<List<Espectaculo>>(){}.getType());
+                            EspectaculoAdapter adapter = new EspectaculoAdapter(HomeActivity.this, R.layout.espectaculo_row, espectaculos);
+                            lvEspectaculos.setAdapter(adapter);
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -281,4 +278,51 @@ public class HomeActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    class EspectaculoAdapter extends ArrayAdapter
+    {
+        private List<Espectaculo> listaEspectaculos;
+        private int resource;
+        private LayoutInflater inflater;
+
+        public EspectaculoAdapter(Context context, int resource, List<Espectaculo> espectaculos){
+            super(context, resource, espectaculos);
+            listaEspectaculos = espectaculos;
+            this.resource = resource;
+            inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            if(convertView == null)
+                convertView = inflater.inflate(resource, null);
+
+            ImageView espImagen;
+            TextView espNombre;
+            TextView espDescripcion;
+            TextView espTipo;
+            TextView espFechas;
+            TextView espSalas;
+            RatingBar espRating;
+
+            espImagen = (ImageView) convertView.findViewById(R.id.espImagen);
+            espNombre = (TextView) convertView.findViewById(R.id.espNombre);
+            espDescripcion = (TextView) convertView.findViewById(R.id.espDescripcion);
+            espTipo = (TextView) convertView.findViewById(R.id.espTipo);
+            espFechas = (TextView) convertView.findViewById(R.id.espFechas);
+            espSalas = (TextView) convertView.findViewById(R.id.espSalas);
+
+            espNombre.setText(listaEspectaculos.get(position).getNombre());
+            espDescripcion.setText("Descripcion: " + listaEspectaculos.get(position).getDescripcion());
+
+            //Harcodeo
+            espTipo.setText("Categoría: Música");
+            espFechas.setText("Fechas: Viernes 20 y Sábado 21 de Junio");
+            espSalas.setText("Salas: Sodre");
+
+            return convertView;
+        }
+    }
+
 }
