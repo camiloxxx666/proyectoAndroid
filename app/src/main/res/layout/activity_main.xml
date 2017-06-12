@@ -2,28 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.camilo.prueba0.MainActivity"
-    android:id="@+id/main_content">
-
+    android:background="#1a242f"
+    tools:context="com.example.camilo.prueba0.MainActivity">
 
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/btn_sign_in"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="@dimen/nav_header_height"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="42dp"
+            android:background="#3498db" />
 
         <ImageView
             android:id="@+id/ticketsLogo"
             android:layout_width="wrap_content"
             android:layout_height="140dp"
-            app:srcCompat="@mipmap/ticket"
-            android:scaleType="centerInside"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="42dp" />
+            android:layout_marginBottom="42dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ticketya" />
 
 
-    
 </RelativeLayout>

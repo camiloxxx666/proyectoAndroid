@@ -1,18 +1,26 @@
 package com.example.camilo.prueba0.modelo;
 
+import java.util.List;
+
 /**
  * Created by Camilo on 04-jun-17.
  */
 
 public class Espectaculo
 {
+    private String id;
     private String nombre;
     private String descripcion;
-    private String id;
-    private String idTipoEspectaculo;
-    //private String nombreTipoEspectaculo;
-    //private List<Realizacion> realizaciones;
-    //private List<Sala> salas;
+    private TipoEspectaculo tipoEspectaculo;
+    private List<Realizacion> realizacionEspectaculo;
+
+    public Espectaculo(String id, String nombre, String descripcion, TipoEspectaculo tipoEspectaculo, List<Realizacion> realizacionEspectaculo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tipoEspectaculo = tipoEspectaculo;
+        this.realizacionEspectaculo = realizacionEspectaculo;
+    }
 
     public String getNombre() {
         return nombre;
@@ -38,13 +46,20 @@ public class Espectaculo
         this.id = id;
     }
 
-    public String getIdTipoEspectaculo() {
-        return idTipoEspectaculo;
+
+    public TipoEspectaculo getTipoEspectaculo() {
+        return tipoEspectaculo;
     }
 
-    public void setIdTipoEspectaculo(String idTipoEspectaculo) {
-        this.idTipoEspectaculo = idTipoEspectaculo;
+    public void setTipoEspectaculo(TipoEspectaculo tipoEspectaculo) {
+        this.tipoEspectaculo = tipoEspectaculo;
     }
 
+    public List<Realizacion> getRealizacionEspectaculo() {
+        return realizacionEspectaculo;
+    }
 
+    public void setRealizacionEspectaculo(List<Realizacion> realizacionEspectaculo) {
+        this.realizacionEspectaculo = realizacionEspectaculo;
+    }
 }

@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="4dp"
-    android:orientation="vertical">
+    android:background="#1a242f"
+    android:orientation="vertical"
+    android:padding="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +18,7 @@
 
             <ImageView
                 android:id="@+id/espImagen"
-                android:layout_width="140dp"
+                android:layout_width="130dp"
                 android:layout_height="90dp"
                 app:srcCompat="@drawable/peniarol" />
         </FrameLayout>
@@ -32,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
+                android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -39,12 +41,14 @@
                 android:id="@+id/espTipo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/espSalas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:text="TextView" />
 
         </LinearLayout>
@@ -53,18 +57,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/espFechas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
             android:text="TextView" />
 
         <TextView
             android:id="@+id/espDescripcion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
             android:text="TextView"
             android:textSize="16sp"
             android:textStyle="bold" />

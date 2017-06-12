@@ -9,7 +9,14 @@ public class Sala
     private String id;
     private String nombre;
     private String descripcion;
+    private String totalLocalidad;
 
+    public Sala(String id, String nombre, String descripcion, String totalLocalidad) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.totalLocalidad = totalLocalidad;
+    }
 
     public String getId() {
         return id;
@@ -33,5 +40,13 @@ public class Sala
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getTotalLocalidad() {
+        return totalLocalidad;
+    }
+
+    public void setTotalLocalidad(String totalLocalidad) {
+        this.totalLocalidad = totalLocalidad;
     }
 }

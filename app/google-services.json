@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "103589124731",
+    "project_number": "285235950139",
     "project_id": "firebase-prueba0"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:103589124731:android:d6cc4f64b86fa903",
+        "mobilesdk_app_id": "1:285235950139:android:d6cc4f64b86fa903",
         "android_client_info": {
           "package_name": "com.example.camilo.prueba0"
         }
       },
       "oauth_client": [
         {
-          "client_id": "103589124731-tujqphnlc9pu1p52tmlulhns0i4fktqo.apps.googleusercontent.com",
+          "client_id": "285235950139-m2g0m0nt0un40o789gkeahgh88rt9gv6.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "285235950139-5phuu3unj6unpl3ufo271sgt5crhs8un.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.camilo.prueba0",
-            "certificate_hash": "6fdad4494fa059405cdc020219c3ad06799d4337"
+            "certificate_hash": "a779c32b6f19e6ee213b8672311a6f2eeb555529"
           }
-        },
-        {
-          "client_id": "103589124731-likipd0ac6ssu3gqbf8u2mtj15i86d1d.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDI-nnpEqfW2j3Z3gg602dsYJiZddyUkwI"
+          "current_key": "AIzaSyCtjE5vSiuSHQ_I8lK7cn75bwlU1B-ivlU"
         }
       ],
       "services": {

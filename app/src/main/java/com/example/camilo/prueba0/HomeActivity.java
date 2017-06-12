@@ -7,8 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,9 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -38,9 +34,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.camilo.prueba0.modelo.Espectaculo;
+import com.example.camilo.prueba0.modelo.EspectaculoFull;
+import com.example.camilo.prueba0.modelo.Realizacion;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -48,14 +44,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.JsonDeserializer;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +65,7 @@ public class HomeActivity extends AppCompatActivity
     private TextView txtEmailNav, txtNombreNav;
     private String foto, nombre, email;
     private ListView lvEspectaculos;
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,13 +118,13 @@ public class HomeActivity extends AppCompatActivity
 
             RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
             StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                    "http://"+ip+":"+puerto+"/obtenerEspectaculosUsuario/"+ "?email=" + email,
+                    "http://"+ip+":"+puerto+"/verProximosEspectaculosYSusRealizaciones/"+ "?_start=1&_end=100" ,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
 
-                            ArrayList<Espectaculo> espectaculos = new Gson().fromJson(response, new TypeToken<List<Espectaculo>>(){}.getType());
-                            EspectaculoAdapter adapter = new EspectaculoAdapter(HomeActivity.this, R.layout.espectaculo_row, espectaculos);
+                            EspectaculoFull resultJson = new Gson().fromJson(response, EspectaculoFull.class);
+                            EspectaculoAdapter adapter = new EspectaculoAdapter(HomeActivity.this, R.layout.espectaculo_row, resultJson.getContent());
                             lvEspectaculos.setAdapter(adapter);
                         }
                     }, new Response.ErrorListener() {
@@ -315,11 +310,18 @@ public class HomeActivity extends AppCompatActivity
 
             espNombre.setText(listaEspectaculos.get(position).getNombre());
             espDescripcion.setText("Descripcion: " + listaEspectaculos.get(position).getDescripcion());
-
-            //Harcodeo
-            espTipo.setText("Categoría: Música");
-            espFechas.setText("Fechas: Viernes 20 y Sábado 21 de Junio");
-            espSalas.setText("Salas: Sodre");
+            espTipo.setText("Categoría: " + listaEspectaculos.get(position).getTipoEspectaculo().getNombre());
+            StringBuilder sb = new StringBuilder("Presentaciones: ");
+            for(Realizacion realizacion : listaEspectaculos.get(position).getRealizacionEspectaculo())
+            {
+                sb.append(realizacion.getSala().getNombre());
+                sb.append(" - ");
+                Date date = new Date();
+                date.setTime(Long.valueOf(realizacion.getFecha()));
+                sb.append(formatter.format(date));
+            }
+            espFechas.setText(sb.toString());
+            espSalas.setText("");
 
             return convertView;
         }
