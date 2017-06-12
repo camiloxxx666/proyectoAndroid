@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     tools:context="com.example.camilo.prueba0.FragmentEventosNuevos">
 
-    <TextView
-        android:id="@+id/textEventosNuevos"
-        android:layout_width="187dp"
-        android:layout_height="46dp"
-        android:text="Fragment Eventos Nuevos" />
+    <ListView
+        android:id="@+id/lvEspectaculos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </FrameLayout>

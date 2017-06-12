@@ -64,15 +64,11 @@ public class HomeActivity extends AppCompatActivity
     private GoogleApiClient mGoogleApiClient;
     private TextView txtEmailNav, txtNombreNav;
     private String foto, nombre, email;
-    private ListView lvEspectaculos;
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        lvEspectaculos = (ListView) findViewById(R.id.lvEspectaculos);
 
         //Enlaza el menú de arriba
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -109,50 +105,11 @@ public class HomeActivity extends AppCompatActivity
         txtNombreNav.setText(getIntent().getExtras().getString("nombre"));
         txtEmailNav.setText(getIntent().getExtras().getString("email"));
 
-        try
-        {
-            final String tenant = Util.getProperty("tenant.name", getApplicationContext());
-            SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, Context.MODE_PRIVATE);
-            String ip = settings.getString("ip", "");
-            String puerto = settings.getString("puerto", "");
-
-            RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
-            StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                    "http://"+ip+":"+puerto+"/verProximosEspectaculosYSusRealizaciones/"+ "?_start=1&_end=100" ,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-
-                            EspectaculoFull resultJson = new Gson().fromJson(response, EspectaculoFull.class);
-                            EspectaculoAdapter adapter = new EspectaculoAdapter(HomeActivity.this, R.layout.espectaculo_row, resultJson.getContent());
-                            lvEspectaculos.setAdapter(adapter);
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(HomeActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }){
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String>  params = new HashMap<String, String>();
-                    params.put("Content-Type", "application/json");
-                    params.put("X-TenantID", tenant);
-
-                    return params;
-                }
-            };
-
-            requestQueue.add(stringRequest);
-        }
-        catch(IOException ioe)
-        {
-            ioe.printStackTrace();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
+        //Crear el fragment
+        Fragment fragment = new FragmentEventosNuevos();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_home, fragment)
+                .commit();
     }
 
 
@@ -272,59 +229,6 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
-    }
-
-    class EspectaculoAdapter extends ArrayAdapter
-    {
-        private List<Espectaculo> listaEspectaculos;
-        private int resource;
-        private LayoutInflater inflater;
-
-        public EspectaculoAdapter(Context context, int resource, List<Espectaculo> espectaculos){
-            super(context, resource, espectaculos);
-            listaEspectaculos = espectaculos;
-            this.resource = resource;
-            inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            if(convertView == null)
-                convertView = inflater.inflate(resource, null);
-
-            ImageView espImagen;
-            TextView espNombre;
-            TextView espDescripcion;
-            TextView espTipo;
-            TextView espFechas;
-            TextView espSalas;
-            RatingBar espRating;
-
-            espImagen = (ImageView) convertView.findViewById(R.id.espImagen);
-            espNombre = (TextView) convertView.findViewById(R.id.espNombre);
-            espDescripcion = (TextView) convertView.findViewById(R.id.espDescripcion);
-            espTipo = (TextView) convertView.findViewById(R.id.espTipo);
-            espFechas = (TextView) convertView.findViewById(R.id.espFechas);
-            espSalas = (TextView) convertView.findViewById(R.id.espSalas);
-
-            espNombre.setText(listaEspectaculos.get(position).getNombre());
-            espDescripcion.setText("Descripcion: " + listaEspectaculos.get(position).getDescripcion());
-            espTipo.setText("Categoría: " + listaEspectaculos.get(position).getTipoEspectaculo().getNombre());
-            StringBuilder sb = new StringBuilder("Presentaciones: ");
-            for(Realizacion realizacion : listaEspectaculos.get(position).getRealizacionEspectaculo())
-            {
-                sb.append(realizacion.getSala().getNombre());
-                sb.append(" - ");
-                Date date = new Date();
-                date.setTime(Long.valueOf(realizacion.getFecha()));
-                sb.append(formatter.format(date));
-            }
-            espFechas.setText(sb.toString());
-            espSalas.setText("");
-
-            return convertView;
-        }
     }
 
 }
