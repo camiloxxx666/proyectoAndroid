@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.camilo.prueba0.FragmentCuenta">
+    tools:context="com.example.camilo.prueba0.fragments.FragmentCuenta">
+
 
     <LinearLayout
         android:id="@+id/llProfile"
@@ -31,9 +32,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
+                android:textColor="@android:color/white"
                 android:textSize="20sp" />
             <TextView
                 android:id="@+id/txtEmail"
+                android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"

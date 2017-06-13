@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1a242f"
-    tools:context="com.example.camilo.prueba0.MainActivity">
+    tools:context="com.example.camilo.prueba0.activitys.MainActivity">
 
 
         <com.google.android.gms.common.SignInButton

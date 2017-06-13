@@ -1,15 +1,11 @@
-package com.example.camilo.prueba0;
+package com.example.camilo.prueba0.activitys;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,40 +15,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.camilo.prueba0.modelo.Espectaculo;
-import com.example.camilo.prueba0.modelo.EspectaculoFull;
-import com.example.camilo.prueba0.modelo.Realizacion;
+import com.example.camilo.prueba0.R;
+import com.example.camilo.prueba0.fragments.FragmentBuscar;
+import com.example.camilo.prueba0.fragments.FragmentCuenta;
+import com.example.camilo.prueba0.fragments.FragmentEventosNuevos;
+import com.example.camilo.prueba0.fragments.FragmentTickets;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.gson.Gson;
-import com.google.gson.JsonDeserializer;
-
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity
         implements FragmentEventosNuevos.OnFragmentInteractionListener,

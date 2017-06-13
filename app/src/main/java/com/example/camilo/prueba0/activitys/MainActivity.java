@@ -1,4 +1,4 @@
-package com.example.camilo.prueba0;
+package com.example.camilo.prueba0.activitys;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -19,6 +19,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.camilo.prueba0.R;
+import com.example.camilo.prueba0.Util;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -32,8 +34,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
-import java.net.CookiePolicy;
-import java.net.CookieStore;
 import java.util.HashMap;
 import java.util.Map;
 

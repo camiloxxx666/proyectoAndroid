@@ -1,6 +1,7 @@
-package com.example.camilo.prueba0;
+package com.example.camilo.prueba0.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +25,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.camilo.prueba0.R;
+import com.example.camilo.prueba0.Util;
+import com.example.camilo.prueba0.activitys.ConfiguracionActivity;
+import com.example.camilo.prueba0.activitys.GestionCompraActivity;
+import com.example.camilo.prueba0.activitys.MainActivity;
 import com.example.camilo.prueba0.modelo.Espectaculo;
 import com.example.camilo.prueba0.modelo.EspectaculoFull;
 import com.example.camilo.prueba0.modelo.Realizacion;
@@ -119,7 +125,7 @@ public class FragmentEventosNuevos extends Fragment
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             if(convertView == null)
                 convertView = inflater.inflate(resource, null);
 
@@ -128,7 +134,7 @@ public class FragmentEventosNuevos extends Fragment
             TextView espDescripcion;
             TextView espTipo;
             TextView espFechas;
-            TextView espSalas;
+            ImageView comprarBtn;
             RatingBar espRating;
 
             espImagen = (ImageView) convertView.findViewById(R.id.espImagen);
@@ -136,11 +142,11 @@ public class FragmentEventosNuevos extends Fragment
             espDescripcion = (TextView) convertView.findViewById(R.id.espDescripcion);
             espTipo = (TextView) convertView.findViewById(R.id.espTipo);
             espFechas = (TextView) convertView.findViewById(R.id.espFechas);
-            espSalas = (TextView) convertView.findViewById(R.id.espSalas);
+            comprarBtn = (ImageView) convertView.findViewById(R.id.comprarBtn);
 
             espNombre.setText(listaEspectaculos.get(position).getNombre());
             espDescripcion.setText("Descripcion: " + listaEspectaculos.get(position).getDescripcion());
-            espTipo.setText("Categoría: " + listaEspectaculos.get(position).getTipoEspectaculo().getNombre());
+            espTipo.setText("Género: " + listaEspectaculos.get(position).getTipoEspectaculo().getNombre());
             StringBuilder sb = new StringBuilder("Presentaciones: ");
             for(Realizacion realizacion : listaEspectaculos.get(position).getRealizacionEspectaculo())
             {
@@ -150,8 +156,17 @@ public class FragmentEventosNuevos extends Fragment
                 date.setTime(Long.valueOf(realizacion.getFecha()));
                 sb.append(formatter.format(date));
             }
+
             espFechas.setText(sb.toString());
-            espSalas.setText("");
+            comprarBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentGestionCompra = new Intent(getActivity(), GestionCompraActivity.class);
+                    intentGestionCompra.putExtra("idEspectaculo", listaEspectaculos.get(position).getId());
+                    startActivity(intentGestionCompra);
+                    }
+            });
+
 
             return convertView;
         }

@@ -1,4 +1,4 @@
-package com.example.camilo.prueba0;
+package com.example.camilo.prueba0.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.camilo.prueba0.R;
 
 
 public class FragmentCuenta extends Fragment {

@@ -22,7 +22,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".activitys.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,14 +30,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeActivity"
+            android:name=".activitys.HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ConfiguracionActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:name=".activitys.ConfiguracionActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activitys.GestionCompraActivity"></activity>
     </application>
 
 </manifest>

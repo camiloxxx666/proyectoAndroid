@@ -12,6 +12,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/espNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -20,36 +35,21 @@
                 android:id="@+id/espImagen"
                 android:layout_width="130dp"
                 android:layout_height="90dp"
-                app:srcCompat="@drawable/peniarol" />
+                app:srcCompat="@drawable/gorillaz" />
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="1"
+            android:layout_marginLeft="4dp">
 
-            <TextView
-                android:id="@+id/espNombre"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/espTipo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/espSalas"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:text="TextView" />
+            <ImageView
+                android:id="@+id/comprarBtn"
+                android:layout_width="177dp"
+                android:layout_height="67dp"
+                app:srcCompat="@drawable/comprar1" />
 
         </LinearLayout>
     </LinearLayout>
@@ -61,20 +61,26 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/espTipo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="TextView"/>
+
+        <TextView
             android:id="@+id/espFechas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/espDescripcion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
-            android:text="TextView"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:text="TextView"/>
 
     </LinearLayout>
 

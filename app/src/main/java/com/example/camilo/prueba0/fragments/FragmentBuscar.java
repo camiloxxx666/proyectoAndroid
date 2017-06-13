@@ -1,4 +1,4 @@
-package com.example.camilo.prueba0;
+package com.example.camilo.prueba0.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,13 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.camilo.prueba0.R;
 
-
-public class FragmentTickets extends Fragment {
+public class FragmentBuscar extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public FragmentTickets() {
+    public FragmentBuscar() {
         // Required empty public constructor
     }
 
@@ -23,7 +23,7 @@ public class FragmentTickets extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tickets, container, false);
+        return inflater.inflate(R.layout.fragment_buscar, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
