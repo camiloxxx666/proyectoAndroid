@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1a242f"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/realTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Presentaciones"
+        android:textColor="@android:color/holo_blue_dark"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/realNombreSala"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="#0f7864"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/realTxtFechas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray"
+            android:text="Seleccione un horario:"/>
+
+        <Spinner
+            android:id="@+id/realFechas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/realTxtSectores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray"
+            android:text="Seleccione un Sector:"/>
+
+        <Spinner
+            android:id="@+id/realSectores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/compraBtn"
+        android:layout_width="163dp"
+        android:layout_height="56dp"
+        android:layout_marginLeft="85dp"
+        app:srcCompat="@drawable/comprar5" />
+
+
+</LinearLayout>

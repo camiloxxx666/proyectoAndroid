@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 /**
@@ -13,6 +14,7 @@ import java.util.Properties;
 
 public class Util
 {
+    public static final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     public static final String PREFS_NAME = "MyPrefsFile";
 
     public static String getProperty(String key, Context context) throws IOException {

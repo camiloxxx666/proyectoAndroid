@@ -33,6 +33,7 @@ import com.example.camilo.prueba0.activitys.MainActivity;
 import com.example.camilo.prueba0.modelo.Espectaculo;
 import com.example.camilo.prueba0.modelo.EspectaculoFull;
 import com.example.camilo.prueba0.modelo.Realizacion;
+import com.example.camilo.prueba0.modelo.TipoEspectaculo;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -47,7 +48,6 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 public class FragmentEventosNuevos extends Fragment
 {
     private ListView lvEspectaculos;
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy"); //Agregar la hora aca cuando se empiece a mandar desde el back
     private OnFragmentInteractionListener mListener;
 
     public FragmentEventosNuevos() {
@@ -126,38 +126,35 @@ public class FragmentEventosNuevos extends Fragment
         @NonNull
         @Override
         public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            if(convertView == null)
+            if (convertView == null)
                 convertView = inflater.inflate(resource, null);
 
             ImageView espImagen;
             TextView espNombre;
             TextView espDescripcion;
             TextView espTipo;
-            TextView espFechas;
             ImageView comprarBtn;
-            RatingBar espRating;
 
             espImagen = (ImageView) convertView.findViewById(R.id.espImagen);
             espNombre = (TextView) convertView.findViewById(R.id.espNombre);
             espDescripcion = (TextView) convertView.findViewById(R.id.espDescripcion);
             espTipo = (TextView) convertView.findViewById(R.id.espTipo);
-            espFechas = (TextView) convertView.findViewById(R.id.espFechas);
             comprarBtn = (ImageView) convertView.findViewById(R.id.comprarBtn);
 
             espNombre.setText(listaEspectaculos.get(position).getNombre());
             espDescripcion.setText("Descripcion: " + listaEspectaculos.get(position).getDescripcion());
-            espTipo.setText("Género: " + listaEspectaculos.get(position).getTipoEspectaculo().getNombre());
-            StringBuilder sb = new StringBuilder("Presentaciones: ");
-            for(Realizacion realizacion : listaEspectaculos.get(position).getRealizacionEspectaculo())
+
+            StringBuilder sbTipos = new StringBuilder("Género: ");
+            if (listaEspectaculos.get(position).getTipoEspectaculo() != null)
             {
-                sb.append(realizacion.getSala().getNombre());
-                sb.append(" - ");
-                Date date = new Date();
-                date.setTime(Long.valueOf(realizacion.getFecha()));
-                sb.append(formatter.format(date));
+                for (TipoEspectaculo te : listaEspectaculos.get(position).getTipoEspectaculo()) {
+                    sbTipos.append(" - ");
+                    sbTipos.append(te.getNombre());
+                }
+
+                espTipo.setText(sbTipos.toString());
             }
 
-            espFechas.setText(sb.toString());
             comprarBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

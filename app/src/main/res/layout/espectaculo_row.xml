@@ -67,13 +67,6 @@
             android:textColor="@android:color/white"
             android:text="TextView"/>
 
-        <TextView
-            android:id="@+id/espFechas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:text="TextView"
-            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/espDescripcion"
