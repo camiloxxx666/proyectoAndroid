@@ -4,8 +4,8 @@
     android:id="@+id/realItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="14sp"
+    android:textSize="16sp"
     android:gravity="left"
-    android:textColor="#0f7864"
+    android:textColor="#18bc9c"
     android:padding="5dip"
     />

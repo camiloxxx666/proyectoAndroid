@@ -1,0 +1,27 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.camilo.prueba0.fragments.FragmentScanner"
+    android:background="#1a242f">
+
+    <TextView
+        android:id="@+id/resultado"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_above="@+id/cameraPreview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:textColor="#FFF"
+        android:text="Enfoque la camara en el Codigo QR"/>
+
+    <SurfaceView
+        android:id="@+id/cameraPreview"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="480px" />
+
+
+
+</RelativeLayout>

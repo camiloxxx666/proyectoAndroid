@@ -2,12 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.camilo.prueba0.fragments.FragmentTickets">
+    tools:context="com.example.camilo.prueba0.fragments.FragmentTickets"
+    android:background="#1a242f">
 
-    <TextView
-        android:id="@+id/textMisTickets"
-        android:layout_width="187dp"
-        android:layout_height="46dp"
-        android:text="Fragment Mis Tickets" />
+    <ListView
+        android:id="@+id/lvTickets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#2c3e50"
+        android:dividerHeight="4px"/>
 
 </FrameLayout>

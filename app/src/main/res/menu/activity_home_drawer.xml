@@ -5,7 +5,7 @@
         <item
             android:id="@+id/nav_buscar"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Buscar Eventos" />
+            android:title="Scanner QR" />
         <item
             android:id="@+id/nav_lista_comprados"
             android:icon="@drawable/ic_menu_gallery"
@@ -21,7 +21,7 @@
             <item
                 android:id="@+id/nav_mi_cuenta"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Mi Cuenta" />
+                android:title="Mi Perfil" />
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_send"

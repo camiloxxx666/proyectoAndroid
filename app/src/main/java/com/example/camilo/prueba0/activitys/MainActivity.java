@@ -116,8 +116,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             try
             {
-                final String tenant = Util.getProperty("tenant.name", getApplicationContext());
                 SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("email", email);
+                editor.commit();
+                finish();
+
+                final String tenant = Util.getProperty("tenant.name", getApplicationContext());
                 String ip = settings.getString("ip", "");
                 String puerto = settings.getString("puerto", "");
 

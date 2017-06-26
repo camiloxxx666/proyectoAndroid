@@ -1,10 +1,13 @@
 package com.example.camilo.prueba0.activitys;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -48,8 +51,7 @@ import java.util.Map;
 
 public class GestionCompraActivity extends AppCompatActivity {
 
-    private TextView prueba;
-    private String idEspectaculo;
+    private String idEspectaculo, email;
     private ListView lvRealizaciones;
 
     @Override
@@ -61,12 +63,15 @@ public class GestionCompraActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             idEspectaculo = extras.getString("idEspectaculo");
+            email = extras.getString("emailUsuario");
         }
+
+        SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, Context.MODE_PRIVATE);
+        email = settings.getString("email", "");
 
         try
         {
             final String tenant = Util.getProperty("tenant.name", GestionCompraActivity.this);
-            SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, Context.MODE_PRIVATE);
             String ip = settings.getString("ip", "");
             String puerto = settings.getString("puerto", "");
 
@@ -126,7 +131,6 @@ public class GestionCompraActivity extends AppCompatActivity {
 
                             RealizacionAdapter adapter = new RealizacionAdapter(GestionCompraActivity.this, R.layout.realizacion_row, salasFechas);
                             lvRealizaciones.setAdapter(adapter);
-                            //Mandar un adapter del orto
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -179,8 +183,7 @@ public class GestionCompraActivity extends AppCompatActivity {
 
             ImageView espImagen; //Esta imagen se cargaría una sola vez pero igual no hay imagen por ahora asi que queda aca
             TextView realNombreSala;
-            Spinner realFechas;
-            Spinner realSectores;
+            final Spinner realSectores, realFechas;
             ImageView compraBtn;
 
             espImagen = (ImageView) convertView.findViewById(R.id.espImagen);
@@ -191,27 +194,40 @@ public class GestionCompraActivity extends AppCompatActivity {
 
             realNombreSala.setText(listaSalas.get(position).getSala().getNombre()); //Puede sacarse la descripcion la capacidad, etc
 
-            ArrayAdapter<String> spinnerAdapterFechas = new ArrayAdapter<String>(GestionCompraActivity.this, R.layout.realizacion_item, R.id.realItem);
-            spinnerAdapterFechas.setDropDownViewResource(R.layout.realizacion_item);
-            realFechas.setAdapter(spinnerAdapterFechas);
-            for(Fecha_realizacion fr : listaSalas.get(position).getFechas())
+            String[] arrayFechas = new String[listaSalas.get(position).getFechas().size()];
+            final HashMap<Integer,String> fechasMap = new HashMap<Integer, String>();
+
+            int posicion = 0;
+            for (Fecha_realizacion fr : listaSalas.get(position).getFechas())
             {
                 Date date = new Date();
                 date.setTime(Long.valueOf(fr.getFecha()));
-                spinnerAdapterFechas.add(Util.formatter.format(date));
-                //Setear el id de la realizacion
+                fechasMap.put(posicion, fr.getIdRealizacion());
+                arrayFechas[posicion] = Util.formatter.format(date);
+                posicion ++;
             }
+
+            ArrayAdapter<String> spinnerAdapterFechas = new ArrayAdapter<String>(GestionCompraActivity.this, R.layout.realizacion_item, arrayFechas);
+            spinnerAdapterFechas.setDropDownViewResource(R.layout.realizacion_item);
+            realFechas.setAdapter(spinnerAdapterFechas);
 
             spinnerAdapterFechas.notifyDataSetChanged();
 
-            ArrayAdapter<String> spinnerAdapterSectores = new ArrayAdapter<String>(GestionCompraActivity.this, R.layout.realizacion_item, R.id.realItem);
+            //Defino un array con el largo igual a cantidad de sectores en la sala
+            String[] arraySectores = new String[listaSalas.get(position).getSectores().size()];
+            final HashMap<Integer,String> sectoresMap = new HashMap<Integer, String>();
+
+            posicion = 0;
+            for (Sector s : listaSalas.get(position).getSectores())
+            {
+                sectoresMap.put(posicion, s.getId());
+                arraySectores[posicion] = s.getNombre()+ " - $" +s.getPrecio();
+                posicion ++;
+            }
+
+            ArrayAdapter<String> spinnerAdapterSectores = new ArrayAdapter<String>(GestionCompraActivity.this, R.layout.realizacion_item, arraySectores);
             spinnerAdapterSectores.setDropDownViewResource(R.layout.realizacion_item);
             realSectores.setAdapter(spinnerAdapterSectores);
-            for(Sector sector : listaSalas.get(position).getSectores())
-            {
-                spinnerAdapterSectores.add(sector.getNombre() + " - $"+sector.getPrecio());// Hay precio, capacidad, etc
-                //https://stackoverflow.com/questions/24712540/set-key-and-value-in-spinner
-            }
 
             spinnerAdapterSectores.notifyDataSetChanged();
 
@@ -219,9 +235,68 @@ public class GestionCompraActivity extends AppCompatActivity {
             compraBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    /*Intent intentGestionCompra = new Intent(getActivity(), GestionCompraActivity.class);
-                    intentGestionCompra.putExtra("idEspectaculo", listaEspectaculos.get(position).getId());
-                    startActivity(intentGestionCompra);*/
+                    String idSector = sectoresMap.get(realSectores.getSelectedItemPosition());
+                    String idRealizacion = fechasMap.get(realFechas.getSelectedItemPosition());
+
+                    try
+                    {
+                        final String tenant = Util.getProperty("tenant.name", getApplicationContext());
+                        SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, Context.MODE_PRIVATE);
+                        String ip = settings.getString("ip", "");
+                        String puerto = settings.getString("puerto", "");
+
+                        RequestQueue requestQueue = Volley.newRequestQueue(GestionCompraActivity.this);
+                        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                                "http://"+ip+":"+puerto+"/comprarEntradaEspectaculo/"+ "?email="+email+"&idRealizacion="+idRealizacion+"&idSector="+idSector ,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+
+                                        AlertDialog.Builder builder;
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            builder = new AlertDialog.Builder(GestionCompraActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                                        } else {
+                                            builder = new AlertDialog.Builder(GestionCompraActivity.this);
+                                        }
+                                        builder.setTitle("Felicitaciones!")
+                                                .setMessage("Compra realizada con exito.")
+                                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        Intent intent = new Intent(GestionCompraActivity.this, HomeActivity.class);
+                                                        intent.putExtra("goToMisTickets", true);
+                                                        startActivity(intent);
+                                                    }
+                                                })
+                                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                                .show();
+
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(GestionCompraActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }){
+                            @Override
+                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                Map<String, String>  params = new HashMap<String, String>();
+                                params.put("Content-Type", "application/json");
+                                params.put("X-TenantID", tenant);
+
+                                return params;
+                            }
+                        };
+
+                        requestQueue.add(stringRequest);
+                    }
+                    catch(IOException ioe)
+                    {
+                        Toast.makeText(GestionCompraActivity.this, ioe.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    catch(Exception e)
+                    {
+                        Toast.makeText(GestionCompraActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
                 }
             });
 

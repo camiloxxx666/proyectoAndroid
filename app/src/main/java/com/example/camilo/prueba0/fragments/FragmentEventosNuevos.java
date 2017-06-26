@@ -49,6 +49,7 @@ public class FragmentEventosNuevos extends Fragment
 {
     private ListView lvEspectaculos;
     private OnFragmentInteractionListener mListener;
+    private String email;
 
     public FragmentEventosNuevos() {
         // Required empty public constructor
@@ -60,11 +61,12 @@ public class FragmentEventosNuevos extends Fragment
         View view = inflater.inflate(R.layout.fragment_eventos_nuevos, container, false);
 
         lvEspectaculos = (ListView) view.findViewById(R.id.lvEspectaculos);
+        SharedPreferences settings = getActivity().getSharedPreferences(Util.PREFS_NAME, Context.MODE_PRIVATE);
+        email = settings.getString("email", "");
 
         try
         {
             final String tenant = Util.getProperty("tenant.name", getActivity().getApplicationContext());
-            SharedPreferences settings = getActivity().getSharedPreferences(Util.PREFS_NAME, Context.MODE_PRIVATE);
             String ip = settings.getString("ip", "");
             String puerto = settings.getString("puerto", "");
 
@@ -82,7 +84,7 @@ public class FragmentEventosNuevos extends Fragment
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }){
                 @Override
@@ -99,11 +101,11 @@ public class FragmentEventosNuevos extends Fragment
         }
         catch(IOException ioe)
         {
-            ioe.printStackTrace();
+            Toast.makeText(getActivity(), ioe.getMessage(), Toast.LENGTH_LONG).show();
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
 
@@ -160,6 +162,7 @@ public class FragmentEventosNuevos extends Fragment
                 public void onClick(View v) {
                     Intent intentGestionCompra = new Intent(getActivity(), GestionCompraActivity.class);
                     intentGestionCompra.putExtra("idEspectaculo", listaEspectaculos.get(position).getId());
+                    intentGestionCompra.putExtra("emailUsuario", email);
                     startActivity(intentGestionCompra);
                     }
             });

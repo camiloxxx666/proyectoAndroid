@@ -1,6 +1,8 @@
 package com.example.camilo.prueba0.activitys;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,9 +20,11 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.camilo.prueba0.R;
+import com.example.camilo.prueba0.Util;
 import com.example.camilo.prueba0.fragments.FragmentBuscar;
 import com.example.camilo.prueba0.fragments.FragmentCuenta;
 import com.example.camilo.prueba0.fragments.FragmentEventosNuevos;
+import com.example.camilo.prueba0.fragments.FragmentScanner;
 import com.example.camilo.prueba0.fragments.FragmentTickets;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -33,12 +37,13 @@ public class HomeActivity extends AppCompatActivity
         implements FragmentEventosNuevos.OnFragmentInteractionListener,
         FragmentCuenta.OnFragmentInteractionListener, FragmentTickets.OnFragmentInteractionListener,
         FragmentBuscar.OnFragmentInteractionListener,
+        FragmentScanner.OnFragmentInteractionListener,
         GoogleApiClient.OnConnectionFailedListener, NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private GoogleApiClient mGoogleApiClient;
     private TextView txtEmailNav, txtNombreNav;
-    private String foto, nombre, email;
+    protected String foto, nombre, email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,16 +80,23 @@ public class HomeActivity extends AppCompatActivity
 
         foto = getIntent().getExtras().getString("fotoGmailURL");
         nombre = getIntent().getExtras().getString("nombre");
-        email = getIntent().getExtras().getString("email");
+
+        SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, Context.MODE_PRIVATE);
+        email = settings.getString("email", "");
 
         txtNombreNav.setText(getIntent().getExtras().getString("nombre"));
         txtEmailNav.setText(getIntent().getExtras().getString("email"));
 
+
         //Crear el fragment
         Fragment fragment = new FragmentEventosNuevos();
+        Bundle bundle = new Bundle();
+        bundle.putString("email", email);
+        fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_home, fragment)
                 .commit();
+
     }
 
 
@@ -159,13 +171,25 @@ public class HomeActivity extends AppCompatActivity
         Fragment fragment = null;
 
         if (id == R.id.nav_buscar) {
-            fragment = new FragmentBuscar();
+            Bundle bundle = new Bundle();
+            bundle.putString("email", email);
+            fragment = new FragmentScanner();
+            fragment.setArguments(bundle);
             fragmentTransaction = true;
-        } else if (id == R.id.nav_lista_comprados) {
+        } else if (id == R.id.nav_lista_comprados)
+        {
+            Bundle bundle = new Bundle();
+            bundle.putString("email", email);
+
             fragment = new FragmentTickets();
+            fragment.setArguments(bundle);
             fragmentTransaction = true;
         } else if (id == R.id.nav_nuevos_eventos) {
+            Bundle bundle = new Bundle();
+            bundle.putString("email", email);
+
             fragment = new FragmentEventosNuevos();
+            fragment.setArguments(bundle);
             fragmentTransaction = true;
         } else if (id == R.id.nav_mi_cuenta)
         {
@@ -177,6 +201,7 @@ public class HomeActivity extends AppCompatActivity
             fragment = new FragmentCuenta();
             fragment.setArguments(bundle);
             fragmentTransaction = true;
+
         } else if (id == R.id.nav_logout) {
             signOut();
         }
