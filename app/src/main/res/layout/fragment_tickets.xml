@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.camilo.prueba0.fragments.FragmentTickets"
-    android:background="#1a242f">
+    android:background="#1a242f"
+    android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/lvTickets"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="#2c3e50"
-        android:dividerHeight="4px"/>
+        <ListView
+            android:id="@+id/lvTickets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="#2c3e50"
+            android:dividerHeight="4px"/>
 
 </FrameLayout>

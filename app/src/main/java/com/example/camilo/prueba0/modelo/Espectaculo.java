@@ -1,5 +1,7 @@
 package com.example.camilo.prueba0.modelo;
 
+import android.graphics.Bitmap;
+
 import java.util.List;
 
 /**
@@ -13,13 +15,15 @@ public class Espectaculo
     private String descripcion;
     private List<TipoEspectaculo> tipoEspectaculo;
     private List<Realizacion> realizacionEspectaculo;
+    private String[] imagenesEspectaculo;
 
-    public Espectaculo(String id, String nombre, String descripcion, List<TipoEspectaculo> tipoEspectaculo, List<Realizacion> realizacionEspectaculo) {
+    public Espectaculo(String id, String nombre, String descripcion, List<TipoEspectaculo> tipoEspectaculo, List<Realizacion> realizacionEspectaculo, String[] imagenesEspectaculo) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.tipoEspectaculo = tipoEspectaculo;
         this.realizacionEspectaculo = realizacionEspectaculo;
+        this.imagenesEspectaculo = imagenesEspectaculo;
     }
 
     public String getNombre() {
@@ -55,12 +59,19 @@ public class Espectaculo
         this.realizacionEspectaculo = realizacionEspectaculo;
     }
 
-
     public List<TipoEspectaculo> getTipoEspectaculo() {
         return tipoEspectaculo;
     }
 
     public void setTipoEspectaculo(List<TipoEspectaculo> tipoEspectaculo) {
         this.tipoEspectaculo = tipoEspectaculo;
+    }
+
+    public String[] getImagenesEspectaculo() {
+        return imagenesEspectaculo;
+    }
+
+    public void setImagenesEspectaculo(String[] imagenesEspectaculo) {
+        this.imagenesEspectaculo = imagenesEspectaculo;
     }
 }

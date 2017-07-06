@@ -21,28 +21,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.camilo.prueba0.R;
-import com.example.camilo.prueba0.Util;
-import com.example.camilo.prueba0.fragments.FragmentEventosNuevos;
-import com.example.camilo.prueba0.modelo.Espectaculo;
-import com.example.camilo.prueba0.modelo.EspectaculoFull;
+import com.example.camilo.prueba0.util.Util;
 import com.example.camilo.prueba0.modelo.Fecha_realizacion;
 import com.example.camilo.prueba0.modelo.Realizacion;
 import com.example.camilo.prueba0.modelo.Sala_fecha;
 import com.example.camilo.prueba0.modelo.Sector;
-import com.example.camilo.prueba0.modelo.TipoEspectaculo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -147,6 +144,10 @@ public class GestionCompraActivity extends AppCompatActivity {
                     return params;
                 }
             };
+
+            int socketTimeout = 30000;
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            stringRequest.setRetryPolicy(policy);
 
             requestQueue.add(stringRequest);
         }

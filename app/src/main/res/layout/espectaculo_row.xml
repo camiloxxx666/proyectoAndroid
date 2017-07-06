@@ -36,6 +36,7 @@
                 android:layout_width="130dp"
                 android:layout_height="90dp"
                 app:srcCompat="@drawable/gorillaz" />
+
         </FrameLayout>
 
         <LinearLayout

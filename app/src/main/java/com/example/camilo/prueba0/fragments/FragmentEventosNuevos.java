@@ -3,42 +3,47 @@ package com.example.camilo.prueba0.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.camilo.prueba0.R;
-import com.example.camilo.prueba0.Util;
-import com.example.camilo.prueba0.activitys.ConfiguracionActivity;
+import com.example.camilo.prueba0.util.AppController;
+import com.example.camilo.prueba0.util.Util;
 import com.example.camilo.prueba0.activitys.GestionCompraActivity;
-import com.example.camilo.prueba0.activitys.MainActivity;
 import com.example.camilo.prueba0.modelo.Espectaculo;
 import com.example.camilo.prueba0.modelo.EspectaculoFull;
-import com.example.camilo.prueba0.modelo.Realizacion;
 import com.example.camilo.prueba0.modelo.TipoEspectaculo;
+import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +52,7 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class FragmentEventosNuevos extends Fragment
 {
+    private static final Object MY_SOCKET_TIMEOUT_MS = 5000;
     private ListView lvEspectaculos;
     private OnFragmentInteractionListener mListener;
     private String email;
@@ -97,7 +103,12 @@ public class FragmentEventosNuevos extends Fragment
                 }
             };
 
+            int socketTimeout = 30000;
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            stringRequest.setRetryPolicy(policy);
+
             requestQueue.add(stringRequest);
+
         }
         catch(IOException ioe)
         {
@@ -111,6 +122,8 @@ public class FragmentEventosNuevos extends Fragment
 
         return view;
     }
+
+
 
     class EspectaculoAdapter extends ArrayAdapter
     {
@@ -136,12 +149,32 @@ public class FragmentEventosNuevos extends Fragment
             TextView espDescripcion;
             TextView espTipo;
             ImageView comprarBtn;
+            ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
-            espImagen = (ImageView) convertView.findViewById(R.id.espImagen);
             espNombre = (TextView) convertView.findViewById(R.id.espNombre);
             espDescripcion = (TextView) convertView.findViewById(R.id.espDescripcion);
             espTipo = (TextView) convertView.findViewById(R.id.espTipo);
             comprarBtn = (ImageView) convertView.findViewById(R.id.comprarBtn);
+            espImagen = (ImageView) convertView.findViewById(R.id.espImagen);
+
+            if(listaEspectaculos.get(0).getImagenesEspectaculo()!=null)
+            {
+                byte[] valueDecoded= Base64.decodeBase64(listaEspectaculos.get(position).getImagenesEspectaculo()[0]);
+
+                Glide.with(getActivity().getApplicationContext()).load(valueDecoded)
+                        .thumbnail(0.5f)
+                        .crossFade()
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                        .into(espImagen);
+
+                //Bitmap bm = BitmapFactory.decodeByteArray(valueDecoded, 0, valueDecoded.length);
+                //espImagen.setImageBitmap(bm);
+            }
+            else
+            {
+                //Una imagen por defecto ahi
+            }
 
             espNombre.setText(listaEspectaculos.get(position).getNombre());
             espDescripcion.setText("Descripcion: " + listaEspectaculos.get(position).getDescripcion());

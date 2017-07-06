@@ -13,14 +13,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.camilo.prueba0.R;
-import com.example.camilo.prueba0.Util;
+import com.example.camilo.prueba0.util.Util;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -104,6 +106,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
 
+            showProgressDialog();
+
             // Success de Login en Gmail se toman los datos del usuario y se mandan al HomeActivity
             GoogleSignInAccount acct = result.getSignInAccount();
 
@@ -141,8 +145,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 intent.putExtra("email", email);
                                 intent.putExtra("fotoGmailURL", personPhotoUrl);
 
+                                hideProgressDialog();
                                 startActivity(intent);
-                                finish();
+                                //finish();
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -160,7 +165,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 };
 
+                int socketTimeout = 30000;
+                RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                stringRequest.setRetryPolicy(policy);
+
                 requestQueue.add(stringRequest);
+
             }
             catch(IOException ioe)
             {

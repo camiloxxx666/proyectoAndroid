@@ -20,11 +20,10 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.camilo.prueba0.R;
-import com.example.camilo.prueba0.Util;
+import com.example.camilo.prueba0.util.Util;
 import com.example.camilo.prueba0.fragments.FragmentBuscar;
 import com.example.camilo.prueba0.fragments.FragmentCuenta;
 import com.example.camilo.prueba0.fragments.FragmentEventosNuevos;
-import com.example.camilo.prueba0.fragments.FragmentScanner;
 import com.example.camilo.prueba0.fragments.FragmentTickets;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -33,11 +32,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+
+
 public class HomeActivity extends AppCompatActivity
         implements FragmentEventosNuevos.OnFragmentInteractionListener,
         FragmentCuenta.OnFragmentInteractionListener, FragmentTickets.OnFragmentInteractionListener,
         FragmentBuscar.OnFragmentInteractionListener,
-        FragmentScanner.OnFragmentInteractionListener,
         GoogleApiClient.OnConnectionFailedListener, NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
@@ -171,11 +171,7 @@ public class HomeActivity extends AppCompatActivity
         Fragment fragment = null;
 
         if (id == R.id.nav_buscar) {
-            Bundle bundle = new Bundle();
-            bundle.putString("email", email);
-            fragment = new FragmentScanner();
-            fragment.setArguments(bundle);
-            fragmentTransaction = true;
+            //Buscar?
         } else if (id == R.id.nav_lista_comprados)
         {
             Bundle bundle = new Bundle();
@@ -227,8 +223,8 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onFragmentInteraction(Uri uri) {}
 
-    }
+
 
 }
