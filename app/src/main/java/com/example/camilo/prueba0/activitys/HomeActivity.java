@@ -170,9 +170,7 @@ public class HomeActivity extends AppCompatActivity
         boolean fragmentTransaction = false;
         Fragment fragment = null;
 
-        if (id == R.id.nav_buscar) {
-            //Buscar?
-        } else if (id == R.id.nav_lista_comprados)
+        if (id == R.id.nav_lista_comprados)
         {
             Bundle bundle = new Bundle();
             bundle.putString("email", email);

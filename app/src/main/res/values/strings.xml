@@ -8,7 +8,7 @@
     <string name="loading">Cargando</string>
 
 
-    <string name="app_name">TicketsYa!</string>
+    <string name="app_name">TicketYa!</string>
     <string name="title_activity_login">Login</string>
 
     <!-- Strings related to login -->
@@ -23,7 +23,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_home">TicketsYa!</string>
+    <string name="title_activity_home">TicketYa!</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

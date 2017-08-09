@@ -161,14 +161,12 @@ public class FragmentTickets extends Fragment {
             if (convertView == null)
                 convertView = inflater.inflate(resource, null);
 
-            ImageView ticketImagen;
             TextView ticketNombre;
             TextView ticketSala;
             TextView ticketSector;
             TextView ticketHorario;
             TextView ticketAsiento;
 
-            ticketImagen = (ImageView) convertView.findViewById(R.id.ticketImagen);
             ticketNombre = (TextView) convertView.findViewById(R.id.ticketNombre);
             ticketSala = (TextView) convertView.findViewById(R.id.ticketSala);
             ticketSector = (TextView) convertView.findViewById(R.id.ticketSector);

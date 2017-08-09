@@ -6,15 +6,7 @@
     android:background="#1a242f"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/realTitulo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Presentaciones"
-        android:textColor="@android:color/holo_blue_dark"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,7 +63,7 @@
         android:layout_width="163dp"
         android:layout_height="56dp"
         android:layout_marginLeft="85dp"
-        app:srcCompat="@drawable/comprar5" />
+        app:srcCompat="@drawable/comprar1" />
 
 
 </LinearLayout>

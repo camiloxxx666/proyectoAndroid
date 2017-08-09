@@ -15,7 +15,7 @@
     <application
         android:name="com.example.camilo.prueba0.util.AppController"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ticket"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -25,7 +25,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".activitys.MainActivity">
+        <activity android:name=".activitys.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,7 +41,8 @@
         <activity
             android:name=".activitys.ConfiguracionActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".activitys.GestionCompraActivity"></activity>
+        <activity android:name=".activitys.GestionCompraActivity"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 

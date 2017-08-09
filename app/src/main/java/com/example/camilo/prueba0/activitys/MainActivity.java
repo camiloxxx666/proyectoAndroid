@@ -124,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putString("email", email);
                 editor.commit();
-                finish();
 
                 final String tenant = Util.getProperty("tenant.name", getApplicationContext());
                 String ip = settings.getString("ip", "");
@@ -147,11 +146,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 hideProgressDialog();
                                 startActivity(intent);
-                                //finish();
+                                finish();
                             }
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        hideProgressDialog();
                         Toast.makeText(MainActivity.this, "Error en el login. Vuelva a inentarlo.", Toast.LENGTH_SHORT).show();
                     }
                 }){

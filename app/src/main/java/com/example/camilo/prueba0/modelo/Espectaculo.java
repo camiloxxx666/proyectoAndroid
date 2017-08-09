@@ -15,15 +15,15 @@ public class Espectaculo
     private String descripcion;
     private List<TipoEspectaculo> tipoEspectaculo;
     private List<Realizacion> realizacionEspectaculo;
-    private String[] imagenesEspectaculo;
+    private String[] imagenesEspectaculoString;
 
-    public Espectaculo(String id, String nombre, String descripcion, List<TipoEspectaculo> tipoEspectaculo, List<Realizacion> realizacionEspectaculo, String[] imagenesEspectaculo) {
+    public Espectaculo(String id, String nombre, String descripcion, List<TipoEspectaculo> tipoEspectaculo, List<Realizacion> realizacionEspectaculo, String[] imagenesEspectaculoString) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.tipoEspectaculo = tipoEspectaculo;
         this.realizacionEspectaculo = realizacionEspectaculo;
-        this.imagenesEspectaculo = imagenesEspectaculo;
+        this.imagenesEspectaculoString = imagenesEspectaculoString;
     }
 
     public String getNombre() {
@@ -67,11 +67,11 @@ public class Espectaculo
         this.tipoEspectaculo = tipoEspectaculo;
     }
 
-    public String[] getImagenesEspectaculo() {
-        return imagenesEspectaculo;
+    public String[] getImagenesEspectaculoString() {
+        return imagenesEspectaculoString;
     }
 
-    public void setImagenesEspectaculo(String[] imagenesEspectaculo) {
-        this.imagenesEspectaculo = imagenesEspectaculo;
+    public void setImagenesEspectaculoString(String[] imagenesEspectaculoString) {
+        this.imagenesEspectaculoString = imagenesEspectaculoString;
     }
 }

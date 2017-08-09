@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -157,9 +158,9 @@ public class FragmentEventosNuevos extends Fragment
             comprarBtn = (ImageView) convertView.findViewById(R.id.comprarBtn);
             espImagen = (ImageView) convertView.findViewById(R.id.espImagen);
 
-            if(listaEspectaculos.get(0).getImagenesEspectaculo()!=null)
+            if(listaEspectaculos.get(0).getImagenesEspectaculoString()!=null)
             {
-                byte[] valueDecoded= Base64.decodeBase64(listaEspectaculos.get(position).getImagenesEspectaculo()[0]);
+                byte[] valueDecoded= Base64.decodeBase64(listaEspectaculos.get(position).getImagenesEspectaculoString()[0]);
 
                 Glide.with(getActivity().getApplicationContext()).load(valueDecoded)
                         .thumbnail(0.5f)
@@ -168,8 +169,6 @@ public class FragmentEventosNuevos extends Fragment
                         .diskCacheStrategy(DiskCacheStrategy.RESULT)
                         .into(espImagen);
 
-                //Bitmap bm = BitmapFactory.decodeByteArray(valueDecoded, 0, valueDecoded.length);
-                //espImagen.setImageBitmap(bm);
             }
             else
             {
@@ -195,6 +194,9 @@ public class FragmentEventosNuevos extends Fragment
                 public void onClick(View v) {
                     Intent intentGestionCompra = new Intent(getActivity(), GestionCompraActivity.class);
                     intentGestionCompra.putExtra("idEspectaculo", listaEspectaculos.get(position).getId());
+                    intentGestionCompra.putExtra("nombreEspectaculo", listaEspectaculos.get(position).getNombre());
+                    intentGestionCompra.putExtra("descripcionEspectaculo", listaEspectaculos.get(position).getDescripcion());
+                    intentGestionCompra.putExtra("imagenEspectaculo", listaEspectaculos.get(position).getImagenesEspectaculoString()[0]);
                     intentGestionCompra.putExtra("emailUsuario", email);
                     startActivity(intentGestionCompra);
                     }

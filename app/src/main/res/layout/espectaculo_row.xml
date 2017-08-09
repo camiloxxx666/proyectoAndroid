@@ -35,7 +35,7 @@
                 android:id="@+id/espImagen"
                 android:layout_width="130dp"
                 android:layout_height="90dp"
-                app:srcCompat="@drawable/gorillaz" />
+                app:srcCompat="@drawable/noimagen" />
 
         </FrameLayout>
 
@@ -50,7 +50,7 @@
                 android:id="@+id/comprarBtn"
                 android:layout_width="177dp"
                 android:layout_height="67dp"
-                app:srcCompat="@drawable/comprar1" />
+                app:srcCompat="@drawable/verdetalle" />
 
         </LinearLayout>
     </LinearLayout>
